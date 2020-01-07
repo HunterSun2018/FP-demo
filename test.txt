@@ -1,0 +1,33 @@
+Functional programmers claim it’s easier to understand programs written in the
+functional style. This is subjective, and people who are used to writing and reading
+imperative code may disagree. Objectively, it can be said that programs written in
+the functional style tend to be shorter and more concise. This was apparent in the
+earlier example: it started with 20 lines of code and ended up with a single line for
+count_lines_in_files and about 5 lines for count_lines , which mainly consisted of
+boilerplate imposed by C++ and STL. Achieving this was possible using higher-level
+abstractions provided by the FP parts of STL.
+One unfortunate truth is that many C++ programmers stay away from using higher-level
+abstractions such as STL algorithms. They have various reasons, from being able to write
+more-efficient code manually, to avoiding writing code that their colleagues can’t eas-
+ily understand. These reasons are valid sometimes, but not in the majority of cases. Not
+availing yourself of more-advanced features of the programming language you’re using
+reduces the power and expressiveness of the language and makes your code more com-
+plex and more difficult to maintain.
+In 1987, Edsger Dijkstra published the paper “Go To Statement Considered Harm-
+ful.” He advocated abandoning the GOTO statement, which was overused in that period,16
+C hapter 1 Introduction to functional programming
+in favor of structured programming and using higher-level constructs including routines,
+loops, and if-then-else branching:
+The unbridled use of the go to statement has as an immediate consequence that it
+becomes terribly hard to find a meaningful set of coordinates in which to describe the
+process progress. ... The go to statement as it stands is just too primitive; it’s too much an
+invitation to make a mess of one’s program. 1
+In many cases, loops and branching are overly primitive. And just as with GOTO , loops
+and branching can make programs harder to write and understand and can often be
+replaced by higher-level FP constructs. We often write the same code in multiple places
+without even noticing that it’s the same, because it works with different types or has
+behavior differences that could easily be factored out.
+By using existing abstractions provided by STL or a third-party library, and by creat-
+ing your own, you can make your code safer and shorter. But you’ll also make it easier
+to expose bugs in those abstractions, because the same code will end up being used in
+multiple places.

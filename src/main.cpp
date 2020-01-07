@@ -6,8 +6,14 @@
 #include <vector>
 #include <map>
 #include <unordered_map>
+#include <cxxabi.h>
+#include <execinfo.h>
 
 using namespace std;
+using word_freq_map = multimap<size_t, string, greater<size_t>>;
+
+const char *demangle(const char *mangled_name);
+word_freq_map count_word_freq(ifstream &ifs);
 
 int main(int argc, char *argv[])
 {
@@ -17,11 +23,41 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    ifstream in(argv[1]);
+    try
+    {
+        ifstream ifs(argv[1]);
 
+        for (const auto &iter : count_word_freq(ifs))
+        {
+            cout << iter.second << "\t->\t" << iter.first << endl;
+        }
+
+        cout << endl;
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << ", exception with type " << demangle(typeid(e).name()) << '\n';
+    }
+    catch (...)
+    {
+        std::cout << "caught a unknonw exception with type " << demangle(abi::__cxa_current_exception_type()->name()) << std::endl;
+    }
+
+    return 0;
+}
+
+const char *demangle(const char *mangled_name)
+{
+    int status;
+
+    return abi::__cxa_demangle(mangled_name, 0, 0, &status);
+}
+
+word_freq_map count_word_freq(ifstream &ifs)
+{
     map<string, size_t> str_amount;
 
-    transform(istream_iterator<string>(in),
+    transform(istream_iterator<string>(ifs),
               istream_iterator<string>(),
               inserter(str_amount, begin(str_amount)),
               [&](const string &str) {
@@ -35,7 +71,7 @@ int main(int argc, char *argv[])
                       return make_pair(str, size_t(1));
               });
 
-    multimap<size_t, string, greater<size_t>> order_map;
+    word_freq_map order_map;
 
     transform(begin(str_amount),
               end(str_amount),
@@ -44,12 +80,5 @@ int main(int argc, char *argv[])
                   return make_pair(pair.second, pair.first);
               });
 
-    for (const auto &iter : order_map)
-    {
-        cout << iter.second << "\t->\t" << iter.first << endl;
-    }
-
-    cout << endl;
-
-    return 0;
+    return order_map;
 }
