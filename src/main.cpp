@@ -35,21 +35,18 @@ int main(int argc, char *argv[])
                       return make_pair(str, size_t(1));
               });
 
-    unordered_map<size_t, string> str_list;
+    multimap<size_t, string, greater<size_t>> order_map;
 
-    // transform(begin(str_amount),
-    //           end(str_amount),
-    //           insert_iterator(str_list, begin(str_list)),
-    //           [](auto pair) {
-    //               return make(pair->second, pair->first);
-    //           });
+    transform(begin(str_amount),
+              end(str_amount),
+              inserter(order_map, begin(order_map)),
+              [](auto pair) {
+                  return make_pair(pair.second, pair.first);
+              });
 
-    // vector<string> text;
-    // copy(is, eof, back_inserter(text));
-    // copy(begin(str_amount), end(str_amount), ostream_iterator<string, size_t>(cout, " "));
-    for (const auto &iter : str_amount)
+    for (const auto &iter : order_map)
     {
-        cout << iter.first << "\t\t" << iter.second << endl;
+        cout << iter.second << "\t->\t" << iter.first << endl;
     }
 
     cout << endl;
