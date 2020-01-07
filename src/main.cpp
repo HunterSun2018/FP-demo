@@ -7,7 +7,9 @@
 #include <map>
 #include <unordered_map>
 #include <cxxabi.h>
+#ifdef X86
 #include <execinfo.h>
+#endif
 
 using namespace std;
 using word_freq_map = multimap<size_t, string, greater<size_t>>;
