@@ -38,11 +38,16 @@ int main(int argc, char *argv[])
     }
     catch (const std::exception &e)
     {
-        std::cerr << e.what() << ", exception with type " << demangle(typeid(e).name()) << '\n';
+        std::cerr << e.what()
+                  << ", exception with type "
+                  << demangle(typeid(e).name())
+                  << endl;
     }
     catch (...)
     {
-        std::cout << "caught a unknonw exception with type " << demangle(abi::__cxa_current_exception_type()->name()) << std::endl;
+        std::cout << "caught a unknonw exception with type "
+                  << demangle(abi::__cxa_current_exception_type()->name())
+                  << std::endl;
     }
 
     return 0;
